@@ -1,8 +1,13 @@
+'use client'
+
+import { useSession } from "next-auth/react"
+
 export default function Home() {
+
+  const { data } = useSession()
   return (
-    <>
-      <h1>Hello World</h1>
-      <p>Uhuuul</p>
-    </>
+    <div>
+      {data?.user?.name}
+    </div>
   )
 }
