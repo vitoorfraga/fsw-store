@@ -24,6 +24,15 @@ export default async function Home() {
   })
 
 
+  const mouses = await prismaClient.product.findMany({
+    where: {
+      category: {
+        slug: 'mouses'
+      }
+    }
+  })
+
+
   return (
     <main className="flex flex-col gap-8">
       <PromoBanner
@@ -59,8 +68,8 @@ export default async function Home() {
         />
 
         <section>
-          <SectionTitle>Teclados</SectionTitle>
-          <ProducList products={keyboards} />
+          <SectionTitle>Mouses</SectionTitle>
+          <ProducList products={mouses} />
         </section>
 
       </section>
