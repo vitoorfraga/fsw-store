@@ -9,27 +9,27 @@ interface ProductItemProps {
 
 export function ProductItem({ product }: ProductItemProps) {
   return (
-    <div className="flex flex-col gap-4 max-w-[170px] relative">
-      <div className="bg-accent rounded-lg h-[170px] w-[170px] flex items-center justify-center ">
+    <div className="flex flex-col gap-4 min-w-[170px]">
+      <div className="relative flex h-[170px] w-full items-center justify-center rounded-lg bg-accent">
         <Image
           src={product.imageUrls[0]}
           width={0}
           height={0}
           sizes="100vw"
-          className="h-auto w-auto max-w-[80%] max-h-[80%]"
+          className="h-auto w-auto max-w-[80%] max-h-[70%]"
           style={{
             objectFit: 'contain'
           }}
           alt={product.name}
         />
-      </div>
 
-      {product.discountPercentage > 0 && (
-        <Badge className="absolute left-3 top-3 px-2 py-[2px]">
-          <ArrowDownIcon size={12} />
-          {product.discountPercentage}%
-        </Badge>
-      )}
+        {product.discountPercentage > 0 && (
+          <Badge className="absolute left-3 top-3 px-2 py-[2px]">
+            <ArrowDownIcon size={12} />
+            {product.discountPercentage}%
+          </Badge>
+        )}
+      </div>
 
       <div className="flex flex-col gap-1">
         <p className="text-sm overflow-hidden whitespace-nowrap text-ellipsis w-full">{product.name}</p>
