@@ -12,7 +12,7 @@ interface CartItemProps {
 
 export default function CartItem({ product }: CartItemProps) {
 
-  const { decreaseProductQuantity } = useContext(CartContext)
+  const { decreaseProductQuantity, increaseProductQuantity } = useContext(CartContext)
   const [productQuantity, setProductQuantity] = useState(1)
 
   function handleDecreaseProductQuantityClick() {
@@ -20,7 +20,7 @@ export default function CartItem({ product }: CartItemProps) {
   }
 
   function handleIncreaseProductQuantityClick() {
-    setProductQuantity(prev => prev + 1)
+    increaseProductQuantity(product.id)
   }
 
 
