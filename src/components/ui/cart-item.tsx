@@ -1,9 +1,9 @@
 'use client'
 
-import { CartProduct } from "@/providers/cart"
+import { CartContext, CartProduct } from "@/providers/cart"
 import Image from "next/image"
 import { Button } from "./button"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { ArrowLeftIcon, ArrowRightIcon, TrashIcon } from "lucide-react"
 
 interface CartItemProps {
@@ -12,10 +12,11 @@ interface CartItemProps {
 
 export default function CartItem({ product }: CartItemProps) {
 
+  const { decreaseProductQuantity } = useContext(CartContext)
   const [productQuantity, setProductQuantity] = useState(1)
 
   function handleDecreaseProductQuantityClick() {
-    setProductQuantity(prev => prev === 1 ? prev : prev - 1)
+    decreaseProductQuantity(product.id)
   }
 
   function handleIncreaseProductQuantityClick() {
