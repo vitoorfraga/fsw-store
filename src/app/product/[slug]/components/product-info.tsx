@@ -3,18 +3,17 @@
 import { Button } from "@/components/ui/button"
 import { DiscountBadge } from "@/components/ui/discount-badge"
 import { ProductWithTotalPrice } from "@/helpers/product"
+import { CartContext } from "@/providers/cart"
 import { ArrowLeftIcon, ArrowRightIcon, TruckIcon } from "lucide-react"
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 interface ProductInfoProps {
-  product: Pick<
-    ProductWithTotalPrice,
-    "basePrice" | "description" | "discountPercentage" | "name" | "totalPrice"
-  >
+  product: ProductWithTotalPrice
 }
 
-export function ProductInfo({ product: { name, description, basePrice, discountPercentage, totalPrice } }: ProductInfoProps) {
+export function ProductInfo({ product }: ProductInfoProps) {
 
+  const { addProductToCart } = useContext(CartContext)
   const [productQuantity, setProductQuantity] = useState(1)
 
   function handleDecreaseProductQuantityClick() {
@@ -25,22 +24,26 @@ export function ProductInfo({ product: { name, description, basePrice, discountP
     setProductQuantity(prev => prev + 1)
   }
 
+  function handleAddToCartClick() {
+    addProductToCart({ ...product, quantity: productQuantity })
+  }
+
   return (
     <div className="flex flex-col px-5">
-      <h2 className="text-lg">{name}</h2>
+      <h2 className="text-lg">{product.name}</h2>
 
       <div className="flex items-center gap-2">
-        <h1 className="text-xl font-bold">R$ {totalPrice.toFixed(2)}</h1>
-        {discountPercentage > 0 && (
+        <h1 className="text-xl font-bold">R$ {product.totalPrice.toFixed(2)}</h1>
+        {product.discountPercentage > 0 && (
 
           <DiscountBadge>
-            {discountPercentage}
+            {product.discountPercentage}
           </DiscountBadge>
         )}
       </div>
 
-      {discountPercentage > 0 && (
-        <p className="text-sm line-through opacity-75">R${Number(basePrice).toFixed(2)}</p>
+      {product.discountPercentage > 0 && (
+        <p className="text-sm line-through opacity-75">R${Number(product.basePrice).toFixed(2)}</p>
       )}
 
       <div className="flex items-center gap-2 mt-4">
@@ -57,10 +60,10 @@ export function ProductInfo({ product: { name, description, basePrice, discountP
 
       <div className="flex flex-col gap-3 mt-8">
         <h3 className="font-bold">Descrição</h3>
-        <p className="text-sm opacity-60 text-justify">{description}</p>
+        <p className="text-sm opacity-60 text-justify">{product.description}</p>
       </div>
 
-      <Button className="mt-8 uppercase font-bold">
+      <Button className="mt-8 uppercase font-bold" onClick={handleAddToCartClick}>
         Adicionar ao carrinho
       </Button>
 
